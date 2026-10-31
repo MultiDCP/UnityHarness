@@ -7,13 +7,16 @@ namespace Cappcn.Actors
 {
     public class PlayerView : MonoBehaviour
     {
-        [Inject] private IInputReader _input;
-        [SerializeField] private float _speed;
+        private Vector3 _moveDir;
 
-        void Update()
+        public void SetVelocity(Vector3 v)
         {
-            var dir = new Vector3(_input.Move.x, 0, _input.Move.y);
-            transform.Translate(dir * _speed * Time.deltaTime);
+            _moveDir = v;
+        }
+
+        private void FixedUpdate()
+        {
+            transform.Translate(_moveDir * Time.fixedDeltaTime);
         }
     }
 }

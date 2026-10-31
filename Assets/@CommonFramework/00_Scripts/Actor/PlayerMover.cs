@@ -1,21 +1,32 @@
+using System;
 using Cappcn.Input;
+using R3;
 using UnityEngine;
 
 namespace Cappcn.Actors
 {
-    public class PlayerMover
+    public sealed class PlayerMover : IDisposable
     {
-        private readonly IInputReader _input;
+        private float _speed = 5f;
+        private float _jumpForce = 8f;
+
+        private readonly ReactiveProperty<Vector3> _velocity = new();
+        private readonly Subject<float> _jumpImpulse = new();
+        private readonly CompositeDisposable _disposables = new();
+
+        public ReadOnlyReactiveProperty<Vector3> Velocity => _velocity;
+        public Observable<float> JumpImpulse => _jumpImpulse;
         public PlayerMover(IInputReader input)
         {
-            // 생성자에서 의존성 주입
-            _input = input;
+            input.Move.Subscribe(v => _velocity.Value = new Vector3(v.x * _speed, 0, v.y * _speed)).AddTo(_disposables);
+            input.isJumpPressed.Subscribe(_ => _jumpImpulse.OnNext(_jumpForce)).AddTo(_disposables);
         }
 
-        public void Tick(float dt)
+        public void Dispose()
         {
-            // 이동 처리
-            var dir = new Vector3(_input.Move.x, 0, _input.Move.y);
+            _disposables.Dispose();
+            _velocity.Dispose();
+            _jumpImpulse.Dispose();
         }
     }
 }

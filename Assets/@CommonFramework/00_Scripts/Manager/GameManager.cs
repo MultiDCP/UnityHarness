@@ -1,14 +1,21 @@
 using Cappcn.Camera;
+using Cappcn.DataStore;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using VContainer;
 
 public class GameManager : MonoBehaviour
 {
+    [Inject] private IUIWriter _ui;
     [Inject] private CameraManager _cameraManager;
 
     void Update()
     {
+        if (Keyboard.current[Key.Space].wasPressedThisFrame)
+        {
+            _ui.Show(UIType.HUD);
+        }
+        
         if (Keyboard.current[Key.F].wasPressedThisFrame)
         {
             _cameraManager.SwitchToGamePlay();

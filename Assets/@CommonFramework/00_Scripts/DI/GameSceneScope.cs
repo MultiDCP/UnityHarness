@@ -3,6 +3,7 @@ using VContainer.Unity;
 using UnityEngine;
 using Cappcn.Camera;
 using Unity.Cinemachine;
+using Cappcn.DataStore;
 
 public class GameSceneScope : LifetimeScope
 {
@@ -13,5 +14,8 @@ public class GameSceneScope : LifetimeScope
         builder.Register<CameraManager>(Lifetime.Singleton)
                 .WithParameter("gamePlay", _gamePlay)
                 .WithParameter("cinematic", _cinematicCamera);
+        
+        builder.Register<UIStore>(Lifetime.Singleton).AsImplementedInterfaces();
+        builder.Register<PlayerDataStore>(Lifetime.Singleton).AsImplementedInterfaces();
     }
 }

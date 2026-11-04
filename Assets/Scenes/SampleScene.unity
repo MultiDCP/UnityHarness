@@ -1475,7 +1475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Cappcn.UI.HudView
   _progress: {fileID: 1008828514}
-  _text: {fileID: 0}
+  _text: {fileID: 273356587}
 --- !u!114 &1593157503
 MonoBehaviour:
   m_ObjectHideFlags: 0

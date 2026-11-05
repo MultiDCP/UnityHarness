@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     {
         if (Keyboard.current[Key.Space].wasPressedThisFrame)
         {
-            _ui.Show(UIType.HUD);
+            _ui.Show(EUIType.HUD);
         }
         
         if (Keyboard.current[Key.F].wasPressedThisFrame)

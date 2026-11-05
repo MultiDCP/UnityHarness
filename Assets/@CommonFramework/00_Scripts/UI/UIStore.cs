@@ -5,33 +5,33 @@ using UnityEngine;
 
 namespace Cappcn.DataStore
 {
-    public enum UIType
+    public enum EUIType
     {
         HUD,
     }
 
     public interface IUIReader
     {
-        ReadOnlyReactiveProperty<bool> GetVisible(UIType type);
+        ReadOnlyReactiveProperty<bool> GetVisible(EUIType type);
     }
 
     public interface IUIWriter
     {
-        void Show(UIType type);
-        void Hide(UIType type);
+        void Show(EUIType type);
+        void Hide(EUIType type);
     }
 
     public sealed class UIStore : IDisposable, IUIReader, IUIWriter
     {
-        private readonly Dictionary<UIType, ReactiveProperty<bool>> _uiStore = new()
+        private readonly Dictionary<EUIType, ReactiveProperty<bool>> _uiStore = new()
         {
-            {UIType.HUD, new()},
+            {EUIType.HUD, new()},
         };
 
-        public ReadOnlyReactiveProperty<bool> GetVisible(UIType type) => _uiStore[type];
+        public ReadOnlyReactiveProperty<bool> GetVisible(EUIType type) => _uiStore[type];
 
-        public void Show(UIType type) => _uiStore[type].Value = true;
-        public void Hide(UIType type) => _uiStore[type].Value = false;
+        public void Show(EUIType type) => _uiStore[type].Value = true;
+        public void Hide(EUIType type) => _uiStore[type].Value = false;
 
         public void Dispose()
         {

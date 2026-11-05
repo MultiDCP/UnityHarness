@@ -6,7 +6,7 @@ using VContainer.Unity;
 
 namespace Cappcn.Input
 {
-    public enum InputType
+    public enum EInputType
     {
         Player,
         UI,
@@ -28,17 +28,17 @@ namespace Cappcn.Input
             _inputActions.Player.Enable();
         }
 
-        public void SwitchInput(InputType type)
+        public void SwitchInput(EInputType type)
         {
             switch (type)
             {
-                case InputType.Player:
+                case EInputType.Player:
                     {
                         _inputActions.Player.Enable();
                         _inputActions.UI.Disable();
                     }
                     break;
-                case InputType.UI:
+                case EInputType.UI:
                     {
                         _inputActions.UI.Enable();
                         _inputActions.Player.Disable();

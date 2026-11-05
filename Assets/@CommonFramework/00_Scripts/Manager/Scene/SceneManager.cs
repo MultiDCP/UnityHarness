@@ -20,7 +20,7 @@ namespace Cappcn.Manager
 
     public sealed class SceneManager : IDisposable, ISceneService, ILoadingSource
     {
-        public enum SceneState
+        public enum ESceneState
         {
             Idle,
             TransitionToLoading,
@@ -28,25 +28,25 @@ namespace Cappcn.Manager
             TransitionToTarget,
         }
 
-        private readonly ReactiveProperty<SceneState> _currentState = new(SceneState.Idle);
+        private readonly ReactiveProperty<ESceneState> _currentState = new(ESceneState.Idle);
         private readonly ReactiveProperty<float> _loadingProgress = new(0f);
-        public ReadOnlyReactiveProperty<SceneState> CurrentState => _currentState;
+        public ReadOnlyReactiveProperty<ESceneState> CurrentState => _currentState;
         public ReadOnlyReactiveProperty<float> LoadingProgress => _loadingProgress;
 
         public async UniTask LoadSceneAsync(string sceneName)
         {
-            if (SceneState.Idle != _currentState.Value)
+            if (ESceneState.Idle != _currentState.Value)
             {
                 return;
             }
 
             try
             {
-                _currentState.Value = SceneState.TransitionToLoading;
+                _currentState.Value = ESceneState.TransitionToLoading;
                 _loadingProgress.Value = 0;
 
                 await UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(SCENE_NAME.LOADING_SCENE, UnityEngine.SceneManagement.LoadSceneMode.Single);
-                _currentState.Value = SceneState.LoadingTarget;
+                _currentState.Value = ESceneState.LoadingTarget;
 
                 var loadOp = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Single);
                 loadOp.allowSceneActivation = false;
@@ -59,7 +59,7 @@ namespace Cappcn.Manager
                 }
 
                 _loadingProgress.Value = 1f;
-                _currentState.Value = SceneState.TransitionToTarget;
+                _currentState.Value = ESceneState.TransitionToTarget;
 
                 loadOp.allowSceneActivation = true;
 
@@ -67,7 +67,7 @@ namespace Cappcn.Manager
             }
             finally
             {
-                _currentState.Value = SceneState.Idle;
+                _currentState.Value = ESceneState.Idle;
                 _loadingProgress.Value = 0;
             }
         }

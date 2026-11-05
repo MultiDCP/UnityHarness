@@ -14,7 +14,7 @@ namespace Cappcn.UI
 
         public HudVM(IUIReader uireader, IPlayerDataReader playerData)
         {
-            IsVisible = uireader.GetVisible(UIType.HUD);
+            IsVisible = uireader.GetVisible(EUIType.HUD);
             playerData.CurrentHP.Subscribe(x =>
             {
                 _currentHp.Value = (float) x / playerData.MaxHP.CurrentValue;

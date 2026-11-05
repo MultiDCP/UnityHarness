@@ -1,4 +1,5 @@
 using Cappcn.Data;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Cappcn.Manager
@@ -11,7 +12,14 @@ namespace Cappcn.Manager
             _dataProvider = dataProvider;
         }    
 
-        public OptionsData Load() => _dataProvider.Load<OptionsData>();
+        private OptionsData _data;
+        public void Load()
+        {
+            _dataProvider.Load<OptionsData>().ContinueWith(x =>
+            {
+                _data = x;
+            });
+        }
         public void Save(OptionsData data) => _dataProvider.Save(data);
     }
 }

@@ -5,12 +5,18 @@ using Cappcn.Input;
 using Cappcn.Data;
 using Cappcn.Manager;
 
-public class ProjectLifetimeScope : LifetimeScope
+namespace Cappcn.DI
 {
-    protected override void Configure(IContainerBuilder builder)
+    public class ProjectLifetimeScope : LifetimeScope
     {
-        builder.RegisterEntryPoint<InputManager>();
-        builder.Register<DataProvider>(Lifetime.Singleton);
-        builder.RegisterEntryPoint<OptionManager>(Lifetime.Singleton);
+        protected override void Configure(IContainerBuilder builder)
+        {
+            builder.RegisterEntryPoint<InputManager>();
+            builder.Register<DataProvider>(Lifetime.Singleton).AsImplementedInterfaces().AsSelf();
+            builder.Register<OptionManager>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<SceneManager>(Lifetime.Singleton).AsImplementedInterfaces();
+
+            builder.RegisterEntryPoint<ProjectBootStrap>();
+        }
     }
 }
